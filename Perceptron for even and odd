@@ -1,0 +1,43 @@
+import random
+
+weights=[random.uniform(-1,1) for _ in range(8)]
+bias=random.uniform(-1,1)
+lr=float(input("Enter the learning rate : "))
+digit=input("Enter the digit :")
+ascii_char=ord(digit)
+binary_char=format(ascii_char,'08b')
+
+print(ascii_char)
+print(binary_char)
+
+inputs=[]
+for bit in binary_char:
+  inputs.append(int(bit))
+
+if int(digit) % 2==0:
+  target=1
+else:
+  target=0
+
+for epoch in range(20):
+  z=0
+  for i in range(8):
+    z=z+weights[i]*inputs[i]
+  z=z+bias
+
+  if z>=0:
+    prediction=1
+  else:
+    prediction=0
+
+  error=target-prediction
+
+  if error==0:
+    print(f"Success in epoch {epoch}")
+    break
+  
+  for i in range(8):
+    weights[i]=weights[i]+(lr*error*inputs[i])
+  bias=bias+(lr*error)
+
+print("Prediction:","Even" if prediction==1 else "Odd")
